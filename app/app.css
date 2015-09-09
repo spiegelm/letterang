@@ -28,3 +28,43 @@
   content: "";
   padding: 0;
 }
+
+.letter {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  /*margin: 1px;*/
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+#letterBoard .letter.chosen {
+  visibility: hidden;
+  /*color: red;*/
+}
+
+.letter.mine {
+  background-color: lightskyblue;
+}
+
+.letter.mine.protected {
+  background-color: blue;
+}
+
+.letter.foreign {
+  background-color: #fad42e;
+}
+
+.letter.foreign.protected {
+  background-color: darkorange;
+}
+
+.letter.unplayed {
+  background-color: #eee;
+}
+
+.chosenLetters {
+  display: flex;
+  padding: 0;
+}

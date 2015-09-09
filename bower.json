@@ -7,9 +7,10 @@
   "private": true,
   "dependencies": {
     "angular": "~1.4.0",
-    "angular-route": "~1.4.0",
     "angular-loader": "~1.4.0",
     "angular-mocks": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-ui-sortable": "~0.13.4",
     "html5-boilerplate": "~5.2.0"
   }
 }
