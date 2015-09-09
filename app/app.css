@@ -1,70 +1,73 @@
 /* app css stylesheet */
 
 .menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+    list-style: none;
+    border-bottom: 0.1em solid black;
+    margin-bottom: 2em;
+    padding: 0 0 0.5em;
 }
 
 .menu:before {
-  content: "[";
+    content: "[";
 }
 
 .menu:after {
-  content: "]";
+    content: "]";
 }
 
 .menu > li {
-  display: inline;
+    display: inline;
 }
 
 .menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+    content: "|";
+    padding-right: 0.3em;
 }
 
 .menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+    content: "";
+    padding: 0;
 }
 
 .letter {
-  display: inline-block;
-  width: 45px;
-  height: 45px;
-  /*margin: 1px;*/
-  text-align: center;
-  vertical-align: middle;
-  font-weight: bold;
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    /*margin: 1px;*/
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 18pt;
 }
 
 #letterBoard .letter.chosen {
-  visibility: hidden;
-  /*color: red;*/
+    visibility: hidden;
+    /*color: red;*/
 }
 
 .letter.mine {
-  background-color: lightskyblue;
+    background-color: lightskyblue;
 }
 
 .letter.mine.protected {
-  background-color: blue;
+    background-color: #88f;
 }
 
 .letter.foreign {
-  background-color: #fad42e;
+    background-color: #fad42e;
 }
 
 .letter.foreign.protected {
-  background-color: darkorange;
+    background-color: darkorange;
 }
 
 .letter.unplayed {
-  background-color: #eee;
+    background-color: #eee;
 }
 
-.chosenLetters {
-  display: flex;
-  padding: 0;
+#chosenLetters {
+    display: flex;
+    padding: 0;
+    height: 50px;
 }
