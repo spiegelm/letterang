@@ -1,4 +1,4 @@
-<p>This is the board</p>
+<p>Current player: <strong>{{currentPlayer}}</strong></p>
 
 <ul ng-model="chosenLetters" ui-sortable id="chosenLetters" >
     <li ng-repeat="letter in chosenLetters"
@@ -24,3 +24,5 @@
               ng-click="chooseLetter(letter)">{{letter.name}}</span>
     </div>
 </div>
+
+<pre>dictionary: {{dictionary()}}</pre>

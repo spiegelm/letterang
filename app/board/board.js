@@ -10,7 +10,7 @@ angular.module('myApp.board', ['ngRoute'])
         });
     }])
 
-    .controller('BoardCtrl', function ($scope) {
+    .controller('BoardCtrl', function ($scope, $http) {
         var defaultFor = function (arg, val) {
             return typeof arg !== 'undefined' ? arg : val;
         };
@@ -102,7 +102,7 @@ angular.module('myApp.board', ['ngRoute'])
                 return {name: a.name + b.name};
             }).name;
 
-            if (dictionaryContainsWord(word)) {
+            if (dictionaryContainsWord(dictionary, word)) {
                 acceptWord();
             } else {
                 alert('"' + word + '" is not in the dictionary!');
@@ -111,18 +111,40 @@ angular.module('myApp.board', ['ngRoute'])
 
         var acceptWord = function() {
 
-            var currentPlayer = 'me';
-
             $scope.chosenLetters.forEach(function(letter) {
-                letter.state.lastPlayedBy = currentPlayer;
+                letter.state.lastPlayedBy = $scope.currentPlayer;
                 removeChosenLetters();
             });
+            switchPlayer();
+        };
+
+        $scope.currentPlayer = 'me';
+        var switchPlayer = function() {
+            $scope.currentPlayer = ($scope.currentPlayer === 'me') ? 'other' : 'me';
         };
 
 
-        var dictionaryContainsWord = function(word) {
-            var dictionary = ["i", "like", "likes", "run", "runs", "runners"];
+        var dictionaryContainsWord = function(dictionary, word) {
             var dictionaryContainsWord = (dictionary.indexOf(word.toLowerCase()) > -1);
             return dictionaryContainsWord;
         };
+
+        var dictionary = [];
+
+        $scope.dictionary = function() {
+            return dictionary;
+        };
+
+        var readDictionary = function() {
+            $http({
+                url: 'dictionary.txt',
+                method: 'GET'
+            }).success(function(response){
+                dictionary = response.split("\n");
+            }).error(function(error){
+                dictionary = ['error'];
+            });
+        };
+
+        readDictionary();
     });
