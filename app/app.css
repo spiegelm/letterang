@@ -67,7 +67,9 @@
 }
 
 #chosenLetters {
-    display: flex;
+    height: 90px;
+}
+
+#chosenLetters ul {
     padding: 0;
-    height: 50px;
 }

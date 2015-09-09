@@ -1,14 +1,18 @@
 <p>Current player: <strong>{{currentPlayer}}</strong></p>
 
-<ul ng-model="chosenLetters" ui-sortable id="chosenLetters" >
-    <li ng-repeat="letter in chosenLetters"
-        class="letter"
-        ng-class="[{false: 'unchosen', true: 'chosen'}[letter.state.chosen],
-                  {null: 'unplayed', 'me': 'mine', 'other': 'foreign'}[letter.state.lastPlayedBy],
-                  {false: 'unprotected', 'true': 'protected'}[letter.state.protected]]"
-        ng-click="removeLetter(letter)">{{letter.name}}</li>
-    </li>
-</ul>
+<div id="chosenLetters">
+    <span ng-click="removeChosenLetters()" ng-show="chosenLetters.length > 0">clear</span>
+
+    <ul ng-model="chosenLetters" ui-sortable>
+        <li ng-repeat="letter in chosenLetters"
+            class="letter"
+            ng-class="[{false: 'unchosen', true: 'chosen'}[letter.state.chosen],
+                      {null: 'unplayed', 'me': 'mine', 'other': 'foreign'}[letter.state.lastPlayedBy],
+                      {false: 'unprotected', 'true': 'protected'}[letter.state.protected]]"
+            ng-click="removeLetter(letter)">{{letter.name}}</li>
+        </li>
+    </ul>
+</div>
 
 <div>
     <a ng-click="submit()">submit</a>
