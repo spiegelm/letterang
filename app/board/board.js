@@ -38,44 +38,57 @@ angular.module('myApp.board', ['ngRoute'])
             return elementRows;
         };
 
+        var dictionary = [];
+
+        $scope.dictionary = function() {
+            return dictionary;
+        };
+
         $scope.chosenLetters = [];
-        $scope.letterRows = [
-            [
-                createLetter('e', false, null, false),
-                createLetter('t', false, null, false),
-                createLetter('s', false, null, false),
-                createLetter('p', false, null, false),
-                createLetter('v', false, null, false),
-            ],
-            [
-                createLetter('l', false, null, false),
-                createLetter('p', false, null, false),
-                createLetter('r', false, null, false),
-                createLetter('a', false, null, false),
-                createLetter('c', false, null, false)
-            ],
-            [
-                createLetter('r', false, null, false),
-                createLetter('y', false, null, false),
-                createLetter('b', false, null, false),
-                createLetter('m', false, null, false),
-                createLetter('j', false, null, false)
-            ],
-            [
-                createLetter('a', false, null, false),
-                createLetter('l', false, null, false),
-                createLetter('k', false, null, false),
-                createLetter('u', false, null, false),
-                createLetter('m', false, null, false)
-            ],
-            [
-                createLetter('n', false, null, false),
-                createLetter('e', false, null, false),
-                createLetter('p', false, null, false),
-                createLetter('i', false, null, false),
-                createLetter('f', false, null, false),
-            ]
-        ];
+        $scope.playedWords = [];
+        $scope.currentPlayer = 'me';
+
+        var createLetterRows = function() {
+            return [
+                [
+                    createLetter('e', false, null, false),
+                    createLetter('t', false, null, false),
+                    createLetter('s', false, null, false),
+                    createLetter('p', false, null, false),
+                    createLetter('v', false, null, false)
+                ],
+                [
+                    createLetter('l', false, null, false),
+                    createLetter('p', false, null, false),
+                    createLetter('r', false, null, false),
+                    createLetter('a', false, null, false),
+                    createLetter('c', false, null, false)
+                ],
+                [
+                    createLetter('r', false, null, false),
+                    createLetter('y', false, null, false),
+                    createLetter('b', false, null, false),
+                    createLetter('m', false, null, false),
+                    createLetter('j', false, null, false)
+                ],
+                [
+                    createLetter('a', false, null, false),
+                    createLetter('l', false, null, false),
+                    createLetter('k', false, null, false),
+                    createLetter('u', false, null, false),
+                    createLetter('m', false, null, false)
+                ],
+                [
+                    createLetter('n', false, null, false),
+                    createLetter('e', false, null, false),
+                    createLetter('p', false, null, false),
+                    createLetter('i', false, null, false),
+                    createLetter('f', false, null, false)
+                ]
+            ];
+        };
+
+        $scope.letterRows = createLetterRows();
 
         $scope.chooseLetter = function (letter) {
             letter.state.chosen = true;
@@ -89,50 +102,85 @@ angular.module('myApp.board', ['ngRoute'])
             $scope.chosenLetters.splice(index, 1);
         };
 
-        var removeChosenLetters = function() {
+        /**
+         * @returns {string} Lowercase
+         */
+        $scope.chosenWord = function() {
+            return $scope.chosenLetters.reduce(function(a, b) {
+                return {name: a.name + b.name};
+            }).name.toLowerCase();
+        };
+
+        $scope.submit = function() {
+
+            var word = $scope.chosenWord();
+
+            if (wordPlayed(word)) {
+                alert(word.toUpperCase() + ' has already been played.');
+                return;
+            }
+
+            if (biggerWordPlayed(word)) {
+                alert('A longer version of ' + word.toUpperCase() + ' has already been played.');
+                return;
+            }
+
+            if (dictionaryContainsWord(dictionary, word)) {
+                acceptWord();
+            } else {
+                alert(word.toUpperCase() + ' is not in the dictionary.');
+            }
+        };
+
+        $scope.removeChosenLetters = function() {
             $scope.chosenLetters.forEach(function (letter) {
                 letter.state.chosen = false;
             });
             $scope.chosenLetters = [];
         };
 
-        $scope.submit = function() {
-
-            var word = $scope.chosenLetters.reduce(function(a, b) {
-                return {name: a.name + b.name};
-            }).name;
-
-            if (dictionaryContainsWord(dictionary, word)) {
-                acceptWord();
-            } else {
-                alert('"' + word + '" is not in the dictionary!');
-            }
-        };
-
         var acceptWord = function() {
+            // Save chosen word
+            $scope.playedWords.push($scope.chosenWord().toLowerCase());
 
+            // Assign letters to player
             $scope.chosenLetters.forEach(function(letter) {
                 letter.state.lastPlayedBy = $scope.currentPlayer;
-                removeChosenLetters();
+                $scope.removeChosenLetters();
             });
+
+            // Next turn
             switchPlayer();
         };
 
-        $scope.currentPlayer = 'me';
         var switchPlayer = function() {
             $scope.currentPlayer = ($scope.currentPlayer === 'me') ? 'other' : 'me';
         };
 
-
         var dictionaryContainsWord = function(dictionary, word) {
-            var dictionaryContainsWord = (dictionary.indexOf(word.toLowerCase()) > -1);
-            return dictionaryContainsWord;
+            return (dictionary.indexOf(word.toLowerCase()) > -1);
         };
 
-        var dictionary = [];
+        /**
+         * @param {string} word
+         * @returns {boolean}
+         */
+        var wordPlayed = function(word) {
+            return $scope.playedWords.indexOf(word.toLowerCase()) > -1;
+        };
 
-        $scope.dictionary = function() {
-            return dictionary;
+        /**
+         * @param {string} word
+         * @returns {boolean}
+         */
+        var biggerWordPlayed = function(word) {
+            var result = false;
+            $scope.playedWords.forEach(function(playedWord) {
+                if (playedWord.indexOf(word.toLowerCase()) > -1) {
+                    result = true;
+                }
+            });
+            return result;
         };
 
         var readDictionary = function() {
