@@ -187,10 +187,13 @@ angular.module('myApp.board', ['ngRoute'])
             $http({
                 url: 'dictionary.txt',
                 method: 'GET'
-            }).success(function(response){
+            }).success(function(response) {
                 dictionary = response.split("\n");
-            }).error(function(error){
-                dictionary = ['error'];
+            }).error(function(error) {
+                var message = 'ERROR! Could not load the dictionary.';
+                alert (message);
+                console.log(message);
+                dictionary = [];
             });
         };
 
