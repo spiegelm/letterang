@@ -73,3 +73,13 @@
 #chosenLetters ul {
     padding: 0;
 }
+
+#currentPlayer.me {
+    color: lightskyblue;
+}
+
+#currentPlayer.other {
+    color: #fad42e;
+}
+
+
