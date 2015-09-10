@@ -185,7 +185,7 @@ angular.module('myApp.board', ['ngRoute'])
 
         var readDictionary = function() {
             $http({
-                url: 'dictionary.txt',
+                url: 'wordlist.txt',
                 method: 'GET'
             }).success(function(response) {
                 dictionary = response.split("\n");

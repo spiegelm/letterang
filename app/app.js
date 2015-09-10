@@ -5,7 +5,7 @@ angular.module('myApp', [
   'ngRoute',
   'myApp.board',
   'myApp.view1',
-  'myApp.view2',
+  'myApp.viewCopyright',
   'myApp.version',
   'ui.sortable'
 ]).

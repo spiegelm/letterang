@@ -26,14 +26,14 @@ describe('my app', function() {
   });
 
 
-  describe('view2', function() {
+  describe('viewCopyright', function() {
 
     beforeEach(function() {
-      browser.get('index.html#/view2');
+      browser.get('index.html#/copyright');
     });
 
 
-    it('should render view2 when user navigates to /view2', function() {
+    it('should render viewCopyright when user navigates to /copyright', function() {
       expect(element.all(by.css('[ng-view] p')).first().getText()).
         toMatch(/partial for view 2/);
     });
