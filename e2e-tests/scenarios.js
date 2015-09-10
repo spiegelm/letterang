@@ -35,7 +35,7 @@ describe('my app', function() {
 
     it('should render viewCopyright when user navigates to /copyright', function() {
       expect(element.all(by.css('[ng-view] p')).first().getText()).
-        toMatch(/partial for view 2/);
+        toMatch(/copyright notice/);
     });
 
   });
