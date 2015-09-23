@@ -23,7 +23,7 @@ describe('myApp.board module', function () {
             });
         }));
 
-        it('middle letter should have 4 neighbours', inject(function($controller) {
+        it('middle letter should have 4 neighbours', inject(function ($controller) {
             var $scope = {};
 
             var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
@@ -33,15 +33,15 @@ describe('myApp.board module', function () {
             var neighbours = $scope.neighbouringLetters($scope.letterRows[y][x]);
             expect(neighbours.length).toBe(4);
 
-            var left = $scope.letterRows[y][x-1];
-            var top = $scope.letterRows[y-1][x];
-            var right = $scope.letterRows[y][x+1];
-            var down = $scope.letterRows[y+1][x];
+            var left = $scope.letterRows[y][x - 1];
+            var top = $scope.letterRows[y - 1][x];
+            var right = $scope.letterRows[y][x + 1];
+            var down = $scope.letterRows[y + 1][x];
 
             expect(neighbours).toEqual([left, top, right, down]);
         }));
 
-        it('edge letter should have 3 neighbours', inject(function($controller) {
+        it('edge letter should have 3 neighbours', inject(function ($controller) {
             var $scope = {};
 
             var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
@@ -51,14 +51,14 @@ describe('myApp.board module', function () {
             var neighbours = $scope.neighbouringLetters($scope.letterRows[y][x]);
             expect(neighbours.length).toBe(3);
 
-            var left = $scope.letterRows[y][x-1];
-            var right = $scope.letterRows[y][x+1];
-            var down = $scope.letterRows[y+1][x];
+            var left = $scope.letterRows[y][x - 1];
+            var right = $scope.letterRows[y][x + 1];
+            var down = $scope.letterRows[y + 1][x];
 
             expect(neighbours).toEqual([left, right, down]);
         }));
 
-        it('edge letter should have 3 neighbours', inject(function($controller) {
+        it('edge letter should have 3 neighbours', inject(function ($controller) {
             var $scope = {};
 
             var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
@@ -68,14 +68,14 @@ describe('myApp.board module', function () {
             var neighbours = $scope.neighbouringLetters($scope.letterRows[y][x]);
             expect(neighbours.length).toBe(3);
 
-            var top = $scope.letterRows[y-1][x];
-            var right = $scope.letterRows[y][x+1];
-            var down = $scope.letterRows[y+1][x];
+            var top = $scope.letterRows[y - 1][x];
+            var right = $scope.letterRows[y][x + 1];
+            var down = $scope.letterRows[y + 1][x];
 
             expect(neighbours).toEqual([top, right, down]);
         }));
 
-        it('corner letter should have 2 neighbours', inject(function($controller) {
+        it('corner letter should have 2 neighbours', inject(function ($controller) {
             var $scope = {};
 
             var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
@@ -85,8 +85,8 @@ describe('myApp.board module', function () {
             var neighbours = $scope.neighbouringLetters($scope.letterRows[y][x]);
             expect(neighbours.length).toBe(2);
 
-            var right = $scope.letterRows[y][x+1];
-            var down = $scope.letterRows[y+1][x];
+            var right = $scope.letterRows[y][x + 1];
+            var down = $scope.letterRows[y + 1][x];
 
             expect(neighbours).toEqual([right, down]);
         }));
