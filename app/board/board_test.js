@@ -58,6 +58,23 @@ describe('myApp.board module', function () {
             expect(neighbours).toEqual([left, right, down]);
         }));
 
+        it('edge letter should have 3 neighbours', inject(function($controller) {
+            var $scope = {};
+
+            var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
+
+            var x = 0, y = 1;
+
+            var neighbours = $scope.neighbouringLetters($scope.letterRows[y][x]);
+            expect(neighbours.length).toBe(3);
+
+            var top = $scope.letterRows[y-1][x];
+            var right = $scope.letterRows[y][x+1];
+            var down = $scope.letterRows[y+1][x];
+
+            expect(neighbours).toEqual([top, right, down]);
+        }));
+
         it('corner letter should have 2 neighbours', inject(function($controller) {
             var $scope = {};
 
