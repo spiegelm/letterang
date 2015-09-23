@@ -8,8 +8,8 @@
             class="letter"
             ng-class="[{false: 'unchosen', true: 'chosen'}[letter.state.chosen],
                       {null: 'unplayed', 'me': 'mine', 'other': 'foreign'}[letter.state.lastPlayedBy],
-                      {false: 'unprotected', 'true': 'protected'}[letter.state.protected]]"
-            ng-click="removeLetter(letter)">{{letter.name}}</li>
+                      {false: 'unprotected', true: 'protected'}[letter.state.protected]]"
+            ng-click="removeLetter(letter)">{{letter.name.toUpperCase()}}</li>
         </li>
     </ul>
 </div>
@@ -25,9 +25,10 @@
               ng-class="[{false: 'unchosen', true: 'chosen'}[letter.state.chosen],
                   {null: 'unplayed', 'me': 'mine', 'other': 'foreign'}[letter.state.lastPlayedBy],
                   {false: 'unprotected', 'true': 'protected'}[letter.state.protected]]"
-              ng-click="chooseLetter(letter)">{{letter.name}}</span>
+              ng-click="chooseLetter(letter)">{{letter.name.toUpperCase()}}</span>
     </div>
 </div>
 
 <p>Played words: {{playedWords}}</p>
 
+{{letterRows | json}}

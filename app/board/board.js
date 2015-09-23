@@ -15,9 +15,13 @@ angular.module('myApp.board', ['ngRoute'])
             return typeof arg !== 'undefined' ? arg : val;
         };
 
-        var createLetter = function(name, chosen, lastPlayedBy, protect) {
+        var createLetter = function(posX, posY, name, chosen, lastPlayedBy, protect) {
             return {
-                'name': name.toUpperCase(),
+                'name': name,
+                'position': {
+                    'x': posX,
+                    'y': posY
+                },
                 'state': {
                     'chosen': defaultFor(chosen, false),
                     'lastPlayedBy': defaultFor(lastPlayedBy, null),
@@ -51,39 +55,39 @@ angular.module('myApp.board', ['ngRoute'])
         var createLetterRows = function() {
             return [
                 [
-                    createLetter('e', false, null, false),
-                    createLetter('t', false, null, false),
-                    createLetter('s', false, null, false),
-                    createLetter('p', false, null, false),
-                    createLetter('v', false, null, false)
+                    createLetter(0, 0, 'e', false, null, false),
+                    createLetter(1, 0, 't', false, null, false),
+                    createLetter(2, 0, 's', false, null, false),
+                    createLetter(3, 0, 'p', false, null, false),
+                    createLetter(4, 0, 'v', false, null, false)
                 ],
                 [
-                    createLetter('l', false, null, false),
-                    createLetter('p', false, null, false),
-                    createLetter('r', false, null, false),
-                    createLetter('a', false, null, false),
-                    createLetter('c', false, null, false)
+                    createLetter(0, 1, 'l', false, null, false),
+                    createLetter(1, 1, 'p', false, null, false),
+                    createLetter(2, 1, 'r', false, null, false),
+                    createLetter(3, 1, 'a', false, null, false),
+                    createLetter(4, 1, 'c', false, null, false)
                 ],
                 [
-                    createLetter('r', false, null, false),
-                    createLetter('y', false, null, false),
-                    createLetter('b', false, null, false),
-                    createLetter('m', false, null, false),
-                    createLetter('j', false, null, false)
+                    createLetter(0, 2, 'r', false, null, false),
+                    createLetter(1, 2, 'y', false, null, false),
+                    createLetter(2, 2, 'b', false, null, false),
+                    createLetter(3, 2, 'm', false, null, false),
+                    createLetter(4, 2, 'j', false, null, false)
                 ],
                 [
-                    createLetter('a', false, null, false),
-                    createLetter('l', false, null, false),
-                    createLetter('k', false, null, false),
-                    createLetter('u', false, null, false),
-                    createLetter('m', false, null, false)
+                    createLetter(0, 3, 'a', false, null, false),
+                    createLetter(1, 3, 'l', false, null, false),
+                    createLetter(2, 3, 'k', false, null, false),
+                    createLetter(3, 3, 'u', false, null, false),
+                    createLetter(4, 3, 'm', false, null, false)
                 ],
                 [
-                    createLetter('n', false, null, false),
-                    createLetter('e', false, null, false),
-                    createLetter('p', false, null, false),
-                    createLetter('i', false, null, false),
-                    createLetter('f', false, null, false)
+                    createLetter(0, 4, 'n', false, null, false),
+                    createLetter(1, 4, 'e', false, null, false),
+                    createLetter(2, 4, 'p', false, null, false),
+                    createLetter(3, 4, 'i', false, null, false),
+                    createLetter(4, 4, 'f', false, null, false)
                 ]
             ];
         };
@@ -139,14 +143,58 @@ angular.module('myApp.board', ['ngRoute'])
             $scope.chosenLetters = [];
         };
 
+        $scope.neighbouringLetters = function(letter) {
+            var neighbours = [];
+            var x = letter.position.x;
+            var y = letter.position.y;
+
+            // Left
+            if (x > 0) {
+                neighbours.push($scope.letterRows[y][x-1]);
+            }
+
+            // Up
+            if (y > 0) {
+                neighbours.push($scope.letterRows[y-1][x]);
+            }
+
+            // Right
+            if (x < $scope.letterRows[0].length - 1) {
+                neighbours.push($scope.letterRows[y][x+1]);
+            }
+
+            // Down
+            if (y < $scope.letterRows.length - 1) {
+                neighbours.push($scope.letterRows[y+1][x]);
+            }
+
+            return neighbours;
+        };
+
         var acceptWord = function() {
             // Save chosen word
             $scope.playedWords.push($scope.chosenWord().toLowerCase());
 
             // Assign letters to player
             $scope.chosenLetters.forEach(function(letter) {
-                letter.state.lastPlayedBy = $scope.currentPlayer;
-                $scope.removeChosenLetters();
+                if (!letter.state.protected) {
+                    letter.state.lastPlayedBy = $scope.currentPlayer;
+                }
+            });
+            $scope.removeChosenLetters();
+
+            // Mark protected letters
+            $scope.letterRows.forEach(function(letterRow) {
+                letterRow.forEach(function(letter) {
+                    var neighbours = $scope.neighbouringLetters(letter);
+
+                    var protectedLetter = true;
+                    neighbours.forEach(function(neighbor) {
+                        protectedLetter = protectedLetter && (neighbor.state.lastPlayedBy === letter.state.lastPlayedBy);
+                    });
+
+                    letter.state.protected = protectedLetter;
+                });
             });
 
             // Next turn
