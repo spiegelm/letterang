@@ -94,6 +94,14 @@ angular.module('myApp.board', ['ngRoute'])
 
         $scope.letterRows = createLetterRows();
 
+        /**
+         * @param {int} x
+         * @param {int} y
+         */
+        $scope.letter = function(x, y) {
+            return $scope.letterRows[y][x];
+        };
+
         $scope.chooseLetter = function (letter) {
             letter.state.chosen = true;
             $scope.chosenLetters.push(letter);
@@ -150,22 +158,22 @@ angular.module('myApp.board', ['ngRoute'])
 
             // Left
             if (x > 0) {
-                neighbours.push($scope.letterRows[y][x-1]);
+                neighbours.push($scope.letter(x - 1, y));
             }
 
             // Up
             if (y > 0) {
-                neighbours.push($scope.letterRows[y-1][x]);
+                neighbours.push($scope.letter(x, y - 1));
             }
 
             // Right
             if (x < $scope.letterRows[0].length - 1) {
-                neighbours.push($scope.letterRows[y][x+1]);
+                neighbours.push($scope.letter(x + 1, y));
             }
 
             // Down
             if (y < $scope.letterRows.length - 1) {
-                neighbours.push($scope.letterRows[y+1][x]);
+                neighbours.push($scope.letter(x, y + 1));
             }
 
             return neighbours;
