@@ -130,7 +130,7 @@ angular.module('myApp.board', ['ngRoute'])
             }
 
             if (dictionaryContainsWord(dictionary, word)) {
-                acceptWord();
+                $scope.acceptWord();
             } else {
                 alert(word.toUpperCase() + ' is not in the dictionary.');
             }
@@ -171,7 +171,7 @@ angular.module('myApp.board', ['ngRoute'])
             return neighbours;
         };
 
-        var acceptWord = function() {
+        $scope.acceptWord = function() {
             // Save chosen word
             $scope.playedWords.push($scope.chosenWord().toLowerCase());
 
