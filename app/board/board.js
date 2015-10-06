@@ -196,7 +196,10 @@ angular.module('myApp.board', ['ngRoute'])
 
                     var protectedLetter = true;
                     neighbours.forEach(function(neighbor) {
-                        protectedLetter = protectedLetter && (neighbor.state.lastPlayedBy === letter.state.lastPlayedBy);
+                        if (neighbor.state.lastPlayedBy === null || letter.state.lastPlayedBy === null) {
+                            protectedLetter = false;
+                        }
+                        protectedLetter = protectedLetter && neighbor.state.lastPlayedBy == letter.state.lastPlayedBy;
                     });
 
                     letter.state.protected = protectedLetter;
