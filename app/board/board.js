@@ -44,9 +44,7 @@ angular.module('myApp.board', ['ngRoute'])
 
         var dictionary = [];
 
-        $scope.dictionary = function() {
-            return dictionary;
-        };
+        $scope.dictionary = [];
 
         $scope.chosenLetters = [];
         $scope.playedWords = [];
@@ -137,7 +135,7 @@ angular.module('myApp.board', ['ngRoute'])
                 return;
             }
 
-            if (dictionaryContainsWord(dictionary, word)) {
+            if (dictionaryContainsWord($scope.dictionary, word)) {
                 $scope.acceptWord();
             } else {
                 alert(word.toUpperCase() + ' is not in the dictionary.');
@@ -244,12 +242,12 @@ angular.module('myApp.board', ['ngRoute'])
                 url: 'wordlist.txt',
                 method: 'GET'
             }).success(function(response) {
-                dictionary = response.split("\n");
+                $scope.dictionary = response.split("\n");
             }).error(function(error) {
                 var message = 'ERROR! Could not load the dictionary.';
                 alert (message);
                 console.log(message);
-                dictionary = [];
+                $scope.dictionary = [];
             });
         };
 

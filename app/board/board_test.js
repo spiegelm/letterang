@@ -31,10 +31,10 @@ describe('myApp.board module', function () {
             var neighbours = $scope.neighbouringLetters($scope.letterRows[y][x]);
             expect(neighbours.length).toBe(4);
 
-            var left = $scope.letterRows[y][x - 1];
-            var top = $scope.letterRows[y - 1][x];
-            var right = $scope.letterRows[y][x + 1];
-            var down = $scope.letterRows[y + 1][x];
+            var left = $scope.letter(x - 1, y);
+            var top = $scope.letter(x, y - 1);
+            var right = $scope.letter(x + 1, y);
+            var down = $scope.letter(x, y + 1);
 
             expect(neighbours).toEqual([left, top, right, down]);
         }));
@@ -48,9 +48,9 @@ describe('myApp.board module', function () {
             var neighbours = $scope.neighbouringLetters($scope.letterRows[y][x]);
             expect(neighbours.length).toBe(3);
 
-            var left = $scope.letterRows[y][x - 1];
-            var right = $scope.letterRows[y][x + 1];
-            var down = $scope.letterRows[y + 1][x];
+            var left = $scope.letter(x - 1, y);
+            var right = $scope.letter(x + 1, y);
+            var down = $scope.letter(x, y + 1);
 
             expect(neighbours).toEqual([left, right, down]);
         }));
@@ -64,9 +64,9 @@ describe('myApp.board module', function () {
             var neighbours = $scope.neighbouringLetters($scope.letterRows[y][x]);
 
             // Test
-            var top = $scope.letterRows[y - 1][x];
-            var right = $scope.letterRows[y][x + 1];
-            var down = $scope.letterRows[y + 1][x];
+            var top = $scope.letter(x, y - 1);
+            var right = $scope.letter(x + 1, y);
+            var down = $scope.letter(x, y + 1);
 
             expect(neighbours.length).toBe(3);
             expect(neighbours).toEqual([top, right, down]);
@@ -81,8 +81,8 @@ describe('myApp.board module', function () {
             var neighbours = $scope.neighbouringLetters($scope.letterRows[y][x]);
 
             // Test
-            var right = $scope.letterRows[y][x + 1];
-            var down = $scope.letterRows[y + 1][x];
+            var right = $scope.letter(x + 1, y);
+            var down = $scope.letter(x, y + 1);
 
             expect(neighbours.length).toBe(2);
             expect(neighbours).toEqual([right, down]);
@@ -92,21 +92,28 @@ describe('myApp.board module', function () {
 
             var playTopLeftLetters = function ($scope) {
 
-                // Choose letters in the corner
-                $scope.chooseLetter($scope.letterRows[0][0]);
-                $scope.chooseLetter($scope.letterRows[0][1]);
-                $scope.chooseLetter($scope.letterRows[1][0]);
+                var L = $scope.letter(0, 1);
+                var E = $scope.letter(0, 0);
+                var T = $scope.letter(1, 0);
+
+                // Define word
+                var LET = [L, E, T];
+
+                // Me plays LETS
+                LET.forEach(function (letter) {
+                    $scope.chooseLetter(letter);
+                });
 
                 // Accept this 3-lettered-word
                 $scope.acceptWord();
 
                 // Test
-                expect($scope.letterRows[0][0].state.protected).toBe(true);
-                expect($scope.letterRows[0][1].state.protected).toBe(false);
-                expect($scope.letterRows[1][0].state.protected).toBe(false);
+                expect($scope.letter(0, 0).state.protected).toBe(true);
+                expect($scope.letter(1, 0).state.protected).toBe(false);
+                expect($scope.letter(0, 1).state.protected).toBe(false);
 
                 // Test if letter is owned by me
-                expect($scope.letterRows[0][0].state.lastPlayedBy).toBe('me');
+                expect($scope.letter(0, 0).state.lastPlayedBy).toBe('me');
             };
 
             it('should be surrounded by letters last played by the same player', inject(function($controller) {
