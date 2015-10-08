@@ -11,10 +11,17 @@ angular.module('myApp.board', ['ngRoute'])
     }])
 
     .controller('BoardCtrl', function ($scope, $http) {
-        var defaultFor = function (arg, val) {
-            return typeof arg !== 'undefined' ? arg : val;
-        };
 
+        /**
+         *
+         * @param {int} posX
+         * @param {int} posY
+         * @param {string} name
+         * @param {boolean} chosen
+         * @param {string} lastPlayedBy
+         * @param {boolean} protect
+         * @returns {{name: string, position: {x: int, y: int}, state: {chosen: boolean, lastPlayedBy: (string|null), protected: boolean}}}
+         */
         var createLetter = function(posX, posY, name, chosen, lastPlayedBy, protect) {
             return {
                 'name': name,
@@ -23,9 +30,9 @@ angular.module('myApp.board', ['ngRoute'])
                     'y': posY
                 },
                 'state': {
-                    'chosen': defaultFor(chosen, false),
-                    'lastPlayedBy': defaultFor(lastPlayedBy, null),
-                    'protected': defaultFor(protect, false)
+                    'chosen': chosen || false,
+                    'lastPlayedBy': lastPlayedBy || null,
+                    'protected': protect || false
                 }
             };
         };
@@ -40,6 +47,20 @@ angular.module('myApp.board', ['ngRoute'])
                 elementRows.push(elementRow);
             });
             return elementRows;
+        };
+
+        /**
+         * Calculate
+         * @returns {{me: number, other: number, none: number}}
+         */
+        $scope.score = function () {
+            var scoreObj = {'me' : 0, 'other': 0, 'none': 0 };
+            $scope.letterRows.forEach(function (row) {
+                row.forEach(function (letter) {
+                    scoreObj[letter.state.lastPlayedBy || 'none' ]++;
+                });
+            });
+            return scoreObj;
         };
 
         var dictionary = [];

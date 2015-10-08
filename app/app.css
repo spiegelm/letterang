@@ -1,85 +1,93 @@
 /* app css stylesheet */
-
-.menu {
-    list-style: none;
-    border-bottom: 0.1em solid black;
-    margin-bottom: 2em;
-    padding: 0 0 0.5em;
+menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
 }
-
 .menu:before {
-    content: "[";
+  content: "[";
 }
-
 .menu:after {
-    content: "]";
+  content: "]";
 }
-
 .menu > li {
-    display: inline;
+  display: inline;
 }
-
 .menu > li:before {
-    content: "|";
-    padding-right: 0.3em;
+  content: "|";
+  padding-right: 0.3em;
 }
-
 .menu > li:nth-child(1):before {
-    content: "";
-    padding: 0;
+  content: "";
+  padding: 0;
 }
-
 .letter {
-    display: inline-block;
-    width: 45px;
-    height: 45px;
-    line-height: 45px;
-    /*margin: 1px;*/
-    text-align: center;
-    vertical-align: middle;
-    font-weight: bold;
-    font-size: 18pt;
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+  /*margin: 1px;*/
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 18pt;
 }
-
 #letterBoard .letter.chosen {
-    visibility: hidden;
-    /*color: red;*/
+  visibility: hidden;
+  /*color: red;*/
 }
-
 .letter.mine {
-    background-color: lightskyblue;
+  background-color: lightskyblue;
 }
-
 .letter.mine.protected {
-    background-color: #88f;
+  background-color: #88f;
 }
-
 .letter.foreign {
-    background-color: #fad42e;
+  background-color: #fad42e;
 }
-
 .letter.foreign.protected {
-    background-color: darkorange;
+  background-color: darkorange;
 }
-
 .letter.unplayed {
-    background-color: #eee;
+  background-color: #eee;
 }
-
 #chosenLetters {
-    height: 90px;
+  height: 90px;
 }
-
 #chosenLetters ul {
-    padding: 0;
+  padding: 0;
 }
-
 #currentPlayer.me {
-    color: lightskyblue;
+  color: lightskyblue;
 }
-
 #currentPlayer.other {
-    color: #fad42e;
+  color: #fad42e;
 }
-
-
+.player-me,
+.player-other {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.avatar {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+}
+.player-me .avatar {
+  background-color: lightskyblue;
+}
+.player-other .avatar {
+  background-color: #fad42e;
+}
+.activity {
+  display: inline-block;
+  height: 5px;
+  width: 5px;
+  border-radius: 5px;
+}
+.active .activity {
+  background-color: black;
+}

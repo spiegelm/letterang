@@ -88,6 +88,25 @@ describe('myApp.board module', function () {
             expect(neighbours).toEqual([right, down]);
         }));
 
+        describe('score', function () {
+            it ('should initialize to 0', inject(function ($controller) {
+                var $scope = {};
+                var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
+
+                expect($scope.score().me).toBe(0);
+            }));
+
+            it ('should count the colored letters', inject(function ($controller) {
+                var $scope = {};
+                var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
+
+                $scope.chooseLetter($scope.letter(0, 0));
+                $scope.acceptWord();
+
+                expect($scope.score().me).toBe(1);
+            }));
+        });
+
         describe('a protected letter', function () {
 
             var playTopLeftLetters = function ($scope) {

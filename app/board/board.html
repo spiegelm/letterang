@@ -1,5 +1,18 @@
 <p>Current player: <strong id="currentPlayer" class="{{currentPlayer}}">{{currentPlayer}}</strong></p>
 
+<p id="status">
+    <span class="player-me" ng-class="{'active': currentPlayer === 'me'}">
+        <span class="avatar"></span>
+        <span class="score">{{score().me}}</span>
+        <span class="activity"></span>
+    </span>
+    <span class="player-other" ng-class="{'active': currentPlayer === 'other'}">
+        <span class="avatar"></span>
+        <span class="score">{{score().other}}</span>
+        <span class="activity"></span>
+    </span>
+</p>
+
 <div id="chosenLetters">
     <span ng-click="removeChosenLetters()" ng-show="chosenLetters.length > 0">clear</span>
 
@@ -30,5 +43,7 @@
 </div>
 
 <p>Played words: {{playedWords}}</p>
+
+<p>Scores: {{score()}}</p>
 
 {{letterRows | json}}
