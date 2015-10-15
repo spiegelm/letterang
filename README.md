@@ -5,8 +5,11 @@ Derived from [angular-seed](https://github.com/angular/angular-seed).
 ## TL;DR
 
 Install npm: `sudo apt-get install npm`
+
 Run tests: `npm run test-single-run`
-Start the app: `npm start`
+
+Start the app: `npm start` and go to `http://localhost:8000/app/index.html`
+
 Rebuild css after changes: `npm run build`
 
 ### Install Dependencies
