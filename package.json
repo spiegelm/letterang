@@ -19,7 +19,8 @@
   },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install",
-    "prestart": "npm install",
+    "prestart": "npm install && npm run build",
+    "build": "./node_modules/less/bin/lessc app/app.less app/app.css",
     "start": "http-server -a localhost -p 8000 -c-1",
     "pretest": "npm install",
     "test": "karma start karma.conf.js",
@@ -33,6 +34,7 @@
   "dependencies": {
     "angular-ui-sortable": "~0.13.4",
     "bower": "~1.5.2",
-    "express": "~4.13.3"
+    "express": "~4.13.3",
+    "less": "~2.5.3"
   }
 }
