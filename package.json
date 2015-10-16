@@ -17,8 +17,8 @@
     "shelljs": "^0.2.6"
   },
   "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install",
-    "prestart": "npm install && npm run build",
+    "postinstall": "npm run build && ./node_modules/bower/bin/bower install",
+    "prestart": "npm install",
     "build": "./node_modules/less/bin/lessc app/app.less app/app.css",
     "start": "http-server -a localhost -p 8000 -c-1",
     "pretest": "npm install",
