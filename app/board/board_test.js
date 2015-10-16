@@ -12,13 +12,16 @@ describe('myApp.board module', function () {
             expect(boardCtrl).toBeDefined();
         }));
 
-        it('should initialize a 5x5 board', inject(function ($controller) {
+        it('should initialize a 5x5 board with letter objects', inject(function ($controller) {
             var $scope = {};
             var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
 
             expect($scope.letterRows.length).toBe(5);
             $scope.letterRows.forEach(function (letterRow) {
                 expect(letterRow.length).toBe(5);
+                letterRow.forEach(function(letter) {
+                    expect(letter.name).toMatch(/[A-Z]/);
+                });
             });
         }));
 
@@ -100,6 +103,9 @@ describe('myApp.board module', function () {
                 var $scope = {};
                 var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
 
+                // Define board
+                $scope.letterRows = predefinedBoard($scope);
+
                 $scope.chooseLetter($scope.letter(0, 0));
                 $scope.acceptWord();
 
@@ -141,7 +147,7 @@ describe('myApp.board module', function () {
                 expect($scope.letter(0, 0).state.lastPlayedBy).toBe('me');
             };
 
-            var playLETS = function ($scope) {
+            var playLETSandPLAY = function ($scope) {
 
                 // Define letters
                 var L = $scope.letter(0, 1);
@@ -205,12 +211,18 @@ describe('myApp.board module', function () {
                 var $scope = {};
                 var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
 
+                // Define board
+                $scope.letterRows = predefinedBoard($scope);
+
                 playTopLeftLetters($scope);
             }));
 
             it('should not change its owner', inject(function ($controller) {
                 var $scope = {};
                 var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
+
+                // Define board
+                $scope.letterRows = predefinedBoard($scope);
 
                 playTopLeftLetters($scope);
 
@@ -236,6 +248,9 @@ describe('myApp.board module', function () {
                 var $scope = {};
                 var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
 
+                // Define board
+                $scope.letterRows = predefinedBoard($scope);
+
                 playTopLeftLetters($scope);
 
                 // Test if letter is owned by me and protected
@@ -259,11 +274,24 @@ describe('myApp.board module', function () {
                 var $scope = {};
                 var boardCtrl = $controller('BoardCtrl', {$scope: $scope});
 
-                playLETS($scope);
+                // Define board
+                $scope.letterRows = predefinedBoard($scope);
+
+                playLETSandPLAY($scope);
 
             }));
 
         });
 
     });
+
+    var predefinedBoard = function($scope) {
+        return $scope.createBoard([
+            ['e', 't', 's', 'p', 'v'],
+            ['l', 'p', 'r', 'a', 'c'],
+            ['r', 'y', 'b', 'm', 'j'],
+            ['a', 'l', 'k', 'u', 'm'],
+            ['n', 'e', 'p', 'i', 'f']
+        ]);
+    };
 });

@@ -12,17 +12,30 @@ angular.module('myApp.board', ['ngRoute'])
 
     .controller('BoardCtrl', function ($scope, $http) {
 
+        $scope.dictionary = [];
+        $scope.letterRows = [[]];
+
+        $scope.chosenLetters = [];
+        $scope.playedWords = [];
+        $scope.currentPlayer = 'me';
+
+        var init = function() {
+            $scope.letterRows = $scope.createBoard(randomLetters());
+            readDictionary();
+        };
+
+
         /**
          *
          * @param {int} posX
          * @param {int} posY
          * @param {string} name
          * @param {boolean} chosen
-         * @param {string} lastPlayedBy
+         * @param {string|null} lastPlayedBy
          * @param {boolean} protect
          * @returns {{name: string, position: {x: int, y: int}, state: {chosen: boolean, lastPlayedBy: (string|null), protected: boolean}}}
          */
-        var createLetter = function(posX, posY, name, chosen, lastPlayedBy, protect) {
+        $scope.createLetter = function(posX, posY, name, chosen, lastPlayedBy, protect) {
             return {
                 'name': name,
                 'position': {
@@ -37,16 +50,16 @@ angular.module('myApp.board', ['ngRoute'])
             };
         };
 
-        var createBoard = function (boardRows) {
-            var elementRows = [];
-            boardRows.forEach(function (row) {
-                var elementRow = [];
-                row.forEach(function (letterName) {
-                    elementRow.push(createLetter(letterName));
-                });
-                elementRows.push(elementRow);
-            });
-            return elementRows;
+        $scope.createBoard = function (letters) {
+            var board = [];
+            for (var y = 0; y < 5; y++) {
+                var row = [];
+                for (var x = 0; x < 5; x++) {
+                    row.push($scope.createLetter(x, y, letters[y][x].toString(), false, null, false));
+                }
+                board.push(row);
+            }
+            return board;
         };
 
         /**
@@ -63,55 +76,21 @@ angular.module('myApp.board', ['ngRoute'])
             return scoreObj;
         };
 
-        var dictionary = [];
-
-        $scope.dictionary = [];
-
-        $scope.chosenLetters = [];
-        $scope.playedWords = [];
-        $scope.currentPlayer = 'me';
-
-        var createLetterRows = function() {
-            return [
-                [
-                    createLetter(0, 0, 'e', false, null, false),
-                    createLetter(1, 0, 't', false, null, false),
-                    createLetter(2, 0, 's', false, null, false),
-                    createLetter(3, 0, 'p', false, null, false),
-                    createLetter(4, 0, 'v', false, null, false)
-                ],
-                [
-                    createLetter(0, 1, 'l', false, null, false),
-                    createLetter(1, 1, 'p', false, null, false),
-                    createLetter(2, 1, 'r', false, null, false),
-                    createLetter(3, 1, 'a', false, null, false),
-                    createLetter(4, 1, 'c', false, null, false)
-                ],
-                [
-                    createLetter(0, 2, 'r', false, null, false),
-                    createLetter(1, 2, 'y', false, null, false),
-                    createLetter(2, 2, 'b', false, null, false),
-                    createLetter(3, 2, 'm', false, null, false),
-                    createLetter(4, 2, 'j', false, null, false)
-                ],
-                [
-                    createLetter(0, 3, 'a', false, null, false),
-                    createLetter(1, 3, 'l', false, null, false),
-                    createLetter(2, 3, 'k', false, null, false),
-                    createLetter(3, 3, 'u', false, null, false),
-                    createLetter(4, 3, 'm', false, null, false)
-                ],
-                [
-                    createLetter(0, 4, 'n', false, null, false),
-                    createLetter(1, 4, 'e', false, null, false),
-                    createLetter(2, 4, 'p', false, null, false),
-                    createLetter(3, 4, 'i', false, null, false),
-                    createLetter(4, 4, 'f', false, null, false)
-                ]
-            ];
+        var createRandomLetter = function() {
+            return String.fromCharCode(65 + Math.random() * 26);
         };
 
-        $scope.letterRows = createLetterRows();
+        var randomLetters = function() {
+            var board = [];
+            for (var y = 0; y < 5; y++) {
+                var row = [];
+                for (var x = 0; x < 5; x++) {
+                    row.push(createRandomLetter());
+                }
+                board.push(row);
+            }
+            return board;
+        };
 
         /**
          * @param {int} x
@@ -275,5 +254,6 @@ angular.module('myApp.board', ['ngRoute'])
             });
         };
 
-        readDictionary();
+        // Init
+        init();
     });
